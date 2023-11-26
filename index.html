@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Babylon.js 2D Shape Extrusion and Manipulation</title>
+    <style>
+        canvas { width: 100%; height: 100% }
+        #ui-container { position: absolute; top: 10px; left: 10px; z-index: 1; }
+        #draw-btn, #extrude-btn, #move-btn, #vertex-edit-btn { margin-bottom: 5px; display: block; }
+    </style>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <div id="ui-container">
+        <button id="draw-btn">Draw</button>
+        <button id="extrude-btn" disabled>Extrude</button>
+        <button id="move-btn" disabled>Move</button>
+        <button id="vertex-edit-btn" disabled>Vertex Edit</button>
+    </div>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/earcut/2.2.1/earcut.min.js"></script> -->
+    <script type="module" src="node_modules/earcut/dist/earcut.min.js"></script>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

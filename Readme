@@ -1,0 +1,108 @@
+Assignment - Extrude 2D Shape to 3D Shape and manipulate the Vertices and move around the ground.
+
+Index:
+    1. Requirements
+    2. How to use
+    3. Detailed logic of Implementation
+
+Requirements:
+________________
+
+- [earcut](https://github.com/mapbox/earcut) for polygon triangulation.
+- [Babylon.js](https://github.com/BabylonJS/Babylon.js) for 3D rendering and interactions.
+
+1. You need to have node, and npm installed.
+2. The zip file i provided contains earcut and babylon.js inside node_modules.
+3. If it is not there you can install it by 
+
+    npm install babylonjs
+    npm install earcut
+
+
+Below are the functionalities that is offered:
+________________________________________________
+
+1. Creating the Object: 
+
+    To Create an object click on the DRAW button on the screen. Now you will be able to draw some points on the ground.
+    After you draw a point a marker/dot will appear on the ground.
+
+    Create some points on the ground.
+
+    After you create some points, hopefully more than 2 points, RIGHT CLICK. After doing RIGHT CLICK the points will get joined
+    and you will get a closed shaped polygon.
+
+2. Extruding the Object:
+
+    Now After you have done this the EXTRUDE button will be activated. If you click on the EXTRUDE button, the polygon you drew on the ground
+    will get extruded to certain height.
+
+3. Moving the Object:
+
+    First you need to go to MOVE mode. To go to MOVE model click on the MOVE Button.
+    To move the object Left click on the extruded object, and drag the object to some place. 
+
+    NOte: YOu will only be able to drag the object inside the ground.
+
+4. Draging the Vertices:
+
+    To go to Vertex Edit mode, Click on the Vertex Edit button. Now you will be able to see the vertices that you can edit are highlighted.
+    Now click on some vertex and try to move around.
+
+
+
+Detailed logic of Implementation
+___________________________________
+
+1. Draw:
+
+    This is simple. I am picking the point. If the point hits the ground then i am getting its coordinates.
+    After picking the coordinates i am making a simple dot in the place of it.
+
+    the dot is made by making a small sphere.
+
+    Now when the user does the right click: 
+        I am calling the babylonjs CreatePolygon function to create a polygon with given points.
+
+    After the User clicks i am activating the Extrude Button.
+
+2. Extrude:
+
+    To do the extrude i am calling the babylonjs ExtrudePolygon Function. This function will extrude the shape in the negative of the y axis.
+    to make it to the above ground i am giving the height to the extruded polygon, so that it will appear above the ground.
+
+    Also the Extrude will remove the 2D polygon and all the dots/Sphere those were marked previously.
+    To remove the meshes i am using the mesh.dispose();
+
+3. Move:
+
+    To move around a object, i am having a starting point, which is the current location of the mesh.
+    Now when the mouse is dragged i am getting its position by picking.
+
+    Now whereever i hit with picking i am getting its location. Now i am calculating the delta required to go to that position.
+    Now after calculating the delta i am adding that delta to the current position of the mesh.
+
+    Note: i am also marking if the next positon is going beyond the ground or not. If it is going beyond the ground i am restricting it.
+
+4. Vertex edit:
+
+    First i am highlighting the vertices we can edit. These are the vertices which are above the ground.
+    So, i am first getting the coordinates of its vertices.
+
+    Now i have also worldtransform matrix. This transform matrix stores what transformations have been gone through on that mesh.
+    There can be many transformation because of our MOVE Operation.
+
+    Now for each of the coordinates of the vertices i am applying this transformation to get the current coordinates of the verticds.
+
+    Now i am highlighting the vertices by dots for which the y value is more that 0. This is because i want to highlight the vertices which are above ground.
+
+
+    Second, when user clicks on the marker which is the sphere/dot, which is above the verices, i am getting the vertices which is close to this sphere.
+    This will be obviously the vertex which is below the sphere.
+
+    Now when a user drags the sphere to a certain point, i am updating the sphere position as well as the position of the vertices.
+    To update the position of the vertex i am getting the inverse of the worldtransform matrix. And then transforming the location of the new position of the sphere.
+    The inversed transformed sphere location is being assigned to the vertex.
+
+
+
